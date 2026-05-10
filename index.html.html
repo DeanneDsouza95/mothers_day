@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Mother's Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lato',sans-serif;background:#d8ccf0;min-height:100vh;overflow-x:hidden;color:#2d1a4a;}
+.bg-wash{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 20% 20%,rgba(196,178,240,.45) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(180,210,240,.4) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 60% 10%,rgba(230,200,255,.3) 0%,transparent 70%);}
+
+#home{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;}
+.main-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4.5vw,3rem);color:#4a2878;text-align:center;margin-bottom:.4rem;}
+.main-sub{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(74,40,120,.5);text-align:center;margin-bottom:3rem;}
+.boxes-row{display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;align-items:flex-end;}
+.gift-wrapper{display:flex;flex-direction:column;align-items:center;gap:.9rem;cursor:pointer;}
+.gift-label{font-family:'Playfair Display',serif;font-size:1rem;color:#4a2878;letter-spacing:.05em;}
+.gift-box{position:relative;width:120px;height:120px;transition:transform .2s ease;}
+.gift-wrapper:hover .gift-box{transform:translateY(-7px) scale(1.05);}
+.box-body{position:absolute;bottom:0;left:0;width:120px;height:88px;border-radius:7px;transition:transform .5s ease,opacity .4s;transform-origin:bottom center;}
+.box-lid{position:absolute;top:0;left:-5px;width:130px;height:34px;border-radius:5px;transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .4s;transform-origin:top center;z-index:2;}
+.ribbon-v{position:absolute;left:50%;top:0;bottom:0;width:13px;transform:translateX(-50%);border-radius:3px;opacity:.85;}
+.ribbon-h{position:absolute;top:50%;left:0;right:0;height:13px;transform:translateY(-50%);border-radius:3px;opacity:.85;}
+.bow{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:46px;height:26px;display:flex;align-items:center;justify-content:center;}
+.bow-left,.bow-right{width:20px;height:20px;border-radius:50% 0 50% 0;position:absolute;}
+.bow-left{left:2px;transform:rotate(-30deg);}
+.bow-right{right:2px;transform:rotate(30deg) scaleX(-1);}
+.bow-knot{width:9px;height:9px;border-radius:50%;position:relative;z-index:2;}
+.box-mum .box-body{background:#c2516a;}.box-mum .box-lid{background:#a8384f;}
+.box-mum .ribbon-v,.box-mum .ribbon-h{background:#fde8d0;}
+.box-mum .bow-left,.box-mum .bow-right{background:#e8a020;}.box-mum .bow-knot{background:#fde8d0;}
+.box-a1 .box-body{background:#7c4db8;}.box-a1 .box-lid{background:#623a96;}
+.box-a1 .ribbon-v,.box-a1 .ribbon-h{background:#e8d8f8;}
+.box-a1 .bow-left,.box-a1 .bow-right{background:#c060c0;}.box-a1 .bow-knot{background:#e8d8f8;}
+.box-a2 .box-body{background:#4a70c8;}.box-a2 .box-lid{background:#3558a8;}
+.box-a2 .ribbon-v,.box-a2 .ribbon-h{background:#d8e8fc;}
+.box-a2 .bow-left,.box-a2 .bow-right{background:#70a8e0;}.box-a2 .bow-knot{background:#d8e8fc;}
+.gift-wrapper.centre .gift-box{width:150px;height:150px;}
+.gift-wrapper.centre .box-body{width:150px;height:110px;}
+.gift-wrapper.centre .box-lid{width:162px;height:42px;left:-6px;}
+.gift-wrapper.centre .gift-label{font-size:1.2rem;}
+.hint-text{margin-top:2.5rem;font-size:.75rem;color:rgba(74,40,120,.45);letter-spacing:.14em;text-transform:uppercase;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.85}}
+
+.confetti-piece{position:fixed;top:0;pointer-events:none;z-index:999;width:8px;height:8px;border-radius:2px;animation:confetti-fall linear forwards;}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+.float-heart{position:fixed;pointer-events:none;z-index:1000;font-size:1.4rem;animation:floatUp 2.5s ease-out forwards;}
+@keyframes floatUp{0%{transform:translateY(0) scale(.5);opacity:1;}100%{transform:translateY(-60vh) scale(1.2);opacity:0;}}
+
+#reveal{display:none;position:fixed;inset:0;z-index:100;background:#d8ccf0;overflow-y:auto;animation:fadeIn .5s ease forwards;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.reveal-inner{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 5rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem;}
+.reveal-header{text-align:center;}
+.reveal-to{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(74,40,120,.5);margin-bottom:.3rem;}
+.reveal-name{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);color:#4a2878;}
+
+.collage-area{position:relative;width:100%;background:rgba(255,255,255,.22);border-radius:20px;border:1px solid rgba(255,255,255,.6);padding:28px 22px;display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:18px;align-items:center;}
+
+.photo-stack{display:flex;flex-direction:column;gap:14px;align-items:center;}
+.photo-tile{width:100%;aspect-ratio:4/3;background:rgba(255,255,255,.55);border:2px solid rgba(255,255,255,.85);border-radius:8px;overflow:hidden;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;color:rgba(74,40,120,.4);font-size:.65rem;letter-spacing:.07em;text-align:center;box-shadow:0 3px 14px rgba(100,60,160,.13);transition:transform .2s,box-shadow .2s;}
+.photo-stack:first-child .photo-tile:nth-child(1){transform:rotate(-3deg);}
+.photo-stack:first-child .photo-tile:nth-child(2){transform:rotate(2deg);}
+.photo-stack:first-child .photo-tile:nth-child(3){transform:rotate(-2deg);}
+.photo-stack:last-child  .photo-tile:nth-child(1){transform:rotate(3deg);}
+.photo-stack:last-child  .photo-tile:nth-child(2){transform:rotate(-2deg);}
+.photo-stack:last-child  .photo-tile:nth-child(3){transform:rotate(2deg);}
+.photo-tile:hover{transform:rotate(0deg) scale(1.04)!important;box-shadow:0 10px 32px rgba(100,60,160,.22);z-index:10;}
+.photo-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.photo-tile input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.add-icon{font-size:1.4rem;line-height:1;pointer-events:none;}
+.add-label{pointer-events:none;}
+
+.letter-centre{background:#ffffff;border:1px solid rgba(160,120,220,.2);border-radius:18px;padding:1.8rem 1.8rem 1.6rem;box-shadow:0 12px 48px rgba(100,60,180,.16);display:flex;flex-direction:column;gap:.6rem;align-self:stretch;}
+.letter-from{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(100,60,180,.45);}
+.letter-textarea{background:#ffffff;border:none;outline:none;resize:none;font-family:'Playfair Display',serif;font-size:1rem;line-height:1.8;color:#2d1a4a;width:100%;flex:1;min-height:260px;}
+.letter-textarea::placeholder{color:rgba(74,40,120,.28);}
+
+.back-btn{margin-top:.5rem;background:transparent;border:1px solid rgba(74,40,120,.35);color:#4a2878;font-family:'Lato',sans-serif;font-size:.8rem;letter-spacing:.13em;text-transform:uppercase;padding:.65rem 2rem;border-radius:100px;cursor:pointer;transition:background .2s;}
+.back-btn:hover{background:rgba(74,40,120,.08);}
+</style>
+</head>
+<body>
+<div class="bg-wash"></div>
+
+<!-- ============================================================
+     HOME SCREEN — Three gift boxes
+     ============================================================ -->
+<div id="home">
+  <h1 class="main-title">Happy Mother's Day 🌸</h1>
+  <p class="main-sub">with all our love</p>
+  <div class="boxes-row">
+
+    <!-- AUNTIE 1 — left box -->
+    <div class="gift-wrapper" onclick="openBox(1)">
+      <div class="gift-box box-a1">
+        <div class="box-lid"><div class="bow"><div class="bow-left"></div><div class="bow-right"></div><div class="bow-knot"></div></div><div class="ribbon-v"></div></div>
+        <div class="box-body"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+      </div>
+      <!-- ✏️ Change "Auntie 1" to your auntie's real name -->
+      <div class="gift-label">Daizy Aunty</div>
+    </div>
+
+    <!-- MUM — centre box (bigger) -->
+    <div class="gift-wrapper centre" onclick="openBox(0)">
+      <div class="gift-box box-mum">
+        <div class="box-lid"><div class="bow"><div class="bow-left"></div><div class="bow-right"></div><div class="bow-knot"></div></div><div class="ribbon-v"></div></div>
+        <div class="box-body"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+      </div>
+      <!-- ✏️ Change "Mum 💕" to your mum's name if you'd like -->
+      <div class="gift-label">Mum 💕</div>
+    </div>
+
+    <!-- AUNTIE 2 — right box -->
+    <div class="gift-wrapper" onclick="openBox(2)">
+      <div class="gift-box box-a2">
+        <div class="box-lid"><div class="bow"><div class="bow-left"></div><div class="bow-right"></div><div class="bow-knot"></div></div><div class="ribbon-v"></div></div>
+        <div class="box-body"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+      </div>
+      <!-- ✏️ Change "Auntie 2" to your auntie's real name -->
+      <div class="gift-label">Lorna Aunty</div>
+    </div>
+
+  </div>
+  <p class="hint-text">tap a gift to open ✨</p>
+</div>
+
+<!-- ============================================================
+     REVEAL SCREEN — Collage + Letter (built by JavaScript below)
+     ============================================================ -->
+<div id="reveal">
+  <div class="reveal-inner">
+    <div class="reveal-header">
+      <p class="reveal-to">A gift for</p>
+      <h2 class="reveal-name" id="reveal-name">Mum</h2>
+    </div>
+    <!-- Collage grid is injected here by buildCollage() in the script -->
+    <div class="collage-area" id="collage-area"></div>
+    <button class="back-btn" onclick="goHome()">← Back to gifts</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ✏️  NAMES — update these to match your real family names
+// Index 0 = Mum, 1 = Auntie 1, 2 = Auntie 2
+// ============================================================
+const people = ['Mum', 'Daizy Aunty', 'Lorna Aunty'];
+
+
+// ============================================================
+// ✏️  LETTERS — write a personal message for each person here
+// Index 0 = Mum's letter, 1 = Auntie 1's letter, 2 = Auntie 2's letter
+// ============================================================
+const letters = [
+  'Dear Mamma, \n Deanne: Thank you for always taking me shopping and for the ganna juice. I really really love your cooking (even tho you make it healthy version) \n Lebron: I will never stop giving you night kissy and Thanks for always convincing dad for everything. \n Danica: Thank you doing my shopping for treats while leaving \n Carissa: Thank you for all the love and support.',   // 0 — Mum's letter
+  'Dear Daizy Aunty, \n Deanne: Thank you for always making extra food for me and lebron.I cant wait to come back to India to eat your cooked food \n Lebron: straight up Good food for life. I love to come to your house just to eat chaklis and chips.\n Danice: I love your  sheera and cupcakes. \n carissa: You are the bess mamma in the world.Thank you for everything from all of us.', // 1 — Auntie 1's letter
+  'Dear Lorna Aunty, \n Deanne: I can never thank you enough for that boy cut hair to gave me in seventh grade. \n Danica:  I’ll guarantee to eat lunch n dinner for one day \n carissa: thank you for always taking our (girls) side. \n Lebron: logical support for DOminic uncle',  // 2 — Auntie 2's letter
+];
+
+//hair cut
+// pani puri round 
+// shopping 
+// lively trips 
+// when 
+
+// upgrade to branded wear 
+// dressing up mak up
+
+// ============================================================
+// ✏️  PHOTOS — replace each null with a file path or URL
+//
+// Layout per person:  [ LEFT col ]        [ RIGHT col ]
+//                     photo[0]  photo[1]  photo[2]     <- top row
+//                     photo[3]  photo[4]  photo[5]     <- Actually:
+//
+// The collage shows 3 photos on the LEFT and 3 on the RIGHT.
+// Slots 0, 1, 2 appear stacked on the LEFT side.
+// Slots 3, 4, 5 appear stacked on the RIGHT side.
+//
+// To hardcode a photo, replace null with a path like:
+//   'photos/mum1.jpg'   ← file sitting next to this HTML file
+//   'https://example.com/photo.jpg'  ← online image URL
+//
+// Or just leave as null — clicking the slot lets you pick a
+// photo from your device when viewing in the browser.
+// ============================================================
+const photos = [
+
+  // ── MUM (index 0) ──────────────────────────────────────────
+  [
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic1.jpeg',  // Mum — LEFT  photo 1 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic2.jpeg',  // Mum — LEFT  photo 2 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic3.jpeg',  // Mum — LEFT  photo 3 (bottom)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic4.jpeg',  // Mum — RIGHT photo 4 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic5.jpeg',  // Mum — RIGHT photo 5 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\mammapic7.jpg',  // Mum — RIGHT photo 6 (bottom)
+  ],
+
+  // ── AUNTIE 1 (index 1) ────────────────────────────────────
+  [
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\daizypic1.jpeg',  // Auntie 1 — LEFT  photo 1 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\daizypic2.jpeg',  // Auntie 1 — LEFT  photo 2 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\daizypic6.jpeg',  // Auntie 1 — LEFT  photo 3 (bottom)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\diazypic7.jpg',  // Auntie 1 — RIGHT photo 4 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\daizypic5.jpeg',  // Auntie 1 — RIGHT photo 5 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornadaizypic1.jpeg',  // Auntie 1 — RIGHT photo 6 (bottom)
+  ],
+
+  // ── AUNTIE 2 (index 2) ────────────────────────────────────
+  [
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic1.jpeg',  // Auntie 2 — LEFT  photo 1 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic2.jpeg',  // Auntie 2 — LEFT  photo 2 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic3.jpeg',  // Auntie 2 — LEFT  photo 3 (bottom)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic4.jpg',  // Auntie 2 — RIGHT photo 4 (top)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic5.jpg',  // Auntie 2 — RIGHT photo 5 (middle)
+    'C:\\Users\\Deanne\\Downloads\\mothers_day\\lornapic6.jpeg',  // Auntie 2 — RIGHT photo 6 (bottom)
+  ],
+
+];
+
+
+// ============================================================
+// Everything below is the app logic — no need to edit this
+// ============================================================
+let current = 0;
+
+function buildCollage(idx) {
+  const area = document.getElementById('collage-area');
+  area.innerHTML = '';
+
+  // Left stack — photos 0, 1, 2
+  const left = document.createElement('div');
+  left.className = 'photo-stack';
+  for (let i = 0; i < 3; i++) left.appendChild(makeTile(idx, i));
+  area.appendChild(left);
+
+  // Centre letter card
+  const letter = document.createElement('div');
+  letter.className = 'letter-centre';
+  letter.innerHTML = `<p class="letter-from">✉ A letter for you</p>
+    <textarea class="letter-textarea" rows="10">${letters[idx]}</textarea>`;
+  letter.querySelector('textarea').addEventListener('input', e => { letters[idx] = e.target.value; });
+  area.appendChild(letter);
+
+  // Right stack — photos 3, 4, 5
+  const right = document.createElement('div');
+  right.className = 'photo-stack';
+  for (let i = 3; i < 6; i++) right.appendChild(makeTile(idx, i));
+  area.appendChild(right);
+}
+
+function makeTile(idx, i) {
+  const tile = document.createElement('div');
+  tile.className = 'photo-tile';
+  if (photos[idx][i]) {
+    // Photo is already set — show it
+    const img = document.createElement('img');
+    img.src = photos[idx][i];
+    tile.appendChild(img);
+  } else {
+    // No photo set — show click-to-upload prompt
+    tile.innerHTML = `<span class="add-icon">📷</span><span class="add-label">Add photo</span>`;
+  }
+  // File picker — lets you click a slot to upload from your device
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => { photos[idx][i] = ev.target.result; buildCollage(idx); };
+    r.readAsDataURL(f);
+  });
+  tile.appendChild(inp);
+  return tile;
+}
+
+const CC = ['#c2516a','#7c4db8','#4a70c8','#e8a020','#f4b8e8','#90c8f0','#d4a0e0','#f9d7a8'];
+
+function spawnConfetti() {
+  for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.background = CC[Math.floor(Math.random() * CC.length)];
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * .5) + 's';
+      el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3500);
+    }, i * 18);
+  }
+}
+
+function spawnHearts() {
+  const EM = ['❤️','💕','🌸','💖','✨','🌹','💗'];
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'float-heart';
+      el.textContent = EM[Math.floor(Math.random() * EM.length)];
+      el.style.left = (10 + Math.random() * 80) + 'vw';
+      el.style.bottom = '5vh';
+      el.style.animationDelay = (Math.random() * 1) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3500);
+    }, i * 120);
+  }
+}
+
+function openBox(idx) {
+  current = idx;
+  // DOM order on screen: Auntie1 = 0, Mum = 1, Auntie2 = 2
+  const domOrder = [1, 0, 2];
+  const w = document.querySelectorAll('.gift-wrapper')[domOrder[idx]];
+  const l = w.querySelector('.box-lid'), b = w.querySelector('.box-body');
+  l.style.transform = 'translateY(-70px) rotate(-28deg)';
+  l.style.opacity = '0';
+  b.style.transform = 'scale(1.12)';
+  spawnConfetti();
+  spawnHearts();
+  setTimeout(() => {
+    l.style.transform = ''; l.style.opacity = ''; b.style.transform = '';
+    document.getElementById('reveal-name').textContent = people[idx];
+    document.getElementById('reveal').style.display = 'block';
+    document.getElementById('reveal').scrollTop = 0;
+    buildCollage(idx);
+  }, 700);
+}
+
+function goHome() {
+  document.getElementById('reveal').style.display = 'none';
+}
+</script>
+</body>
+</html>
